@@ -156,7 +156,10 @@ const Index = () => {
               </div>
 
               {includeIETC && (
-                <div className="ml-6 space-y-1.5">
+                <div className="ml-6 space-y-3">
+                  <p className="text-xs text-muted-foreground">
+                    Note: If you were on the ME tax code, your IETC may have already been included in your take-home pay during the year.
+                  </p>
                   <Label htmlFor="months" className="text-sm font-medium">
                     Months eligible for IETC (0–12)
                   </Label>

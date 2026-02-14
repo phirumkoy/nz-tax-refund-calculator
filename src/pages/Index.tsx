@@ -11,6 +11,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   calculateTaxDue,
   calculateIETC,
   getIETCMessage,
@@ -153,14 +160,21 @@ const Index = () => {
                   <Label htmlFor="months" className="text-sm font-medium">
                     Months eligible for IETC (0–12)
                   </Label>
-                  <Input
-                    id="months"
-                    type="text"
-                    inputMode="numeric"
+                  <Select
                     value={monthsEligible}
-                    onChange={(e) => handleMonthsChange(e.target.value)}
-                    className="h-10 w-24"
-                  />
+                    onValueChange={(value) => setMonthsEligible(value)}
+                  >
+                    <SelectTrigger className="h-10 w-full sm:w-32">
+                      <SelectValue placeholder="Select months" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Array.from({ length: 13 }, (_, i) => (
+                        <SelectItem key={i} value={String(i)}>
+                          {i}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <p className="text-xs text-muted-foreground">
                     IRD may pro-rate IETC based on the number of months you were
                     eligible during the tax year.
@@ -230,21 +244,21 @@ const Index = () => {
 
         {/* Accordions */}
         <Accordion type="multiple" className="space-y-3">
-          <AccordionItem value="how-to-find" className="rounded-lg border bg-card shadow-sm px-4">
+          <AccordionItem value="good-to-know" className="rounded-lg border bg-card shadow-sm px-4">
             <AccordionTrigger className="text-sm font-medium hover:no-underline">
-              How to Find Your Numbers
+              Good to Know
             </AccordionTrigger>
             <AccordionContent className="text-sm text-muted-foreground space-y-2">
-              <p>To find your Total Gross Income and Total Tax Deducted for the current tax year:</p>
-              <ol className="list-decimal ml-5 space-y-1.5">
-                <li>Log in to your myIR account at ird.govt.nz.</li>
-                <li>Navigate to "Income tax" from your account summary.</li>
-                <li>Select the relevant tax year (1 April 2025 – 31 March 2026).</li>
-                <li>Look for "Income summary" or "Employment income" details.</li>
-                <li>Your gross income and tax deducted amounts will be listed per employer or income source.</li>
-                <li>Add all sources together for your totals.</li>
-                <li>If your employer has not yet filed, the figures may not appear until after 31 March.</li>
-              </ol>
+              <p>This calculator provides an estimate only.</p>
+              <p>
+                Final results may differ due to IRD adjustments, including KiwiSaver
+                contributions, PIE income, interest, dividends, Working for Families
+                tax credits, and other tax credits or deductions.
+              </p>
+              <p>
+                Please refer to your official IRD income tax assessment for final
+                figures.
+              </p>
             </AccordionContent>
           </AccordionItem>
 
@@ -263,21 +277,43 @@ const Index = () => {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="good-to-know" className="rounded-lg border bg-card shadow-sm px-4">
+          <AccordionItem value="how-to-find" className="rounded-lg border bg-card shadow-sm px-4">
             <AccordionTrigger className="text-sm font-medium hover:no-underline">
-              Good to Know
+              How to Find Your Numbers in MyIR
             </AccordionTrigger>
-            <AccordionContent className="text-sm text-muted-foreground space-y-2">
-              <p>This calculator provides an estimate only.</p>
-              <p>
-                Final results may differ due to IRD adjustments, including KiwiSaver
-                contributions, PIE income, interest, dividends, Working for Families
-                tax credits, and other tax credits or deductions.
-              </p>
-              <p>
-                Please refer to your official IRD income tax assessment for final
-                figures.
-              </p>
+            <AccordionContent className="text-sm text-muted-foreground space-y-4">
+              <a
+                href="https://myir.ird.govt.nz/_/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs underline text-muted-foreground"
+              >
+                Log into MyIR
+              </a>
+
+              <div className="space-y-2">
+                <p className="font-medium text-foreground">Finding Total Gross Income</p>
+                <ol className="list-decimal ml-5 space-y-1.5">
+                  <li>Log into MyIR.</li>
+                  <li>Click "Income Summary".</li>
+                  <li>Select the relevant Income Tax Year (1 April 2025 – 31 March 2026).</li>
+                  <li>Click "Summary by type (Salary & wages)".</li>
+                  <li>Click "View breakdown".</li>
+                  <li>Use the figure shown under "Total gross amount".</li>
+                </ol>
+              </div>
+
+              <div className="space-y-2">
+                <p className="font-medium text-foreground">Finding Total Tax Deducted</p>
+                <ol className="list-decimal ml-5 space-y-1.5">
+                  <li>Log into MyIR.</li>
+                  <li>Click "Income Summary".</li>
+                  <li>Select the relevant Income Tax Year (1 April 2025 – 31 March 2026).</li>
+                  <li>Click "Summary by type (Salary & wages)".</li>
+                  <li>Click "View breakdown".</li>
+                  <li>Use the figure shown under "Total tax deducted".</li>
+                </ol>
+              </div>
             </AccordionContent>
           </AccordionItem>
         </Accordion>

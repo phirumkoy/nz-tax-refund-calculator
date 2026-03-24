@@ -146,7 +146,7 @@ const Index = () => {
                   onCheckedChange={(checked) => setIncludeIETC(checked === true)}
                 />
                 <Label htmlFor="ietc" className="text-sm cursor-pointer">
-                  Include IETC (if eligible)
+                  Include IETC (if eligible based on conditions below)
                 </Label>
               </div>
 

@@ -43,7 +43,8 @@ const Index = () => {
   const [taxDeducted, setTaxDeducted] = useState("");
   const [includeIETC, setIncludeIETC] = useState(false);
   const [monthsEligible, setMonthsEligible] = useState("12");
-  const [receivedBenefitOrWfF, setReceivedBenefitOrWfF] = useState(false);
+  const [receivedBenefit, setReceivedBenefit] = useState(false);
+  const [receivedWfF, setReceivedWfF] = useState(false);
   const [results, setResults] = useState<Results | null>(null);
 
   const handleCalculate = () => {

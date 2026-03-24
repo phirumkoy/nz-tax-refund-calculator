@@ -184,7 +184,10 @@ const Index = () => {
                     <Checkbox
                       id="received-benefit"
                       checked={receivedBenefit}
-                      onCheckedChange={(checked) => setReceivedBenefit(checked === true)}
+                      onCheckedChange={(checked) => {
+                        setReceivedBenefit(checked === true);
+                        if (checked) setIncludeIETC(false);
+                      }}
                       className="mt-0.5"
                     />
                     <Label htmlFor="received-benefit" className="text-sm cursor-pointer leading-snug">

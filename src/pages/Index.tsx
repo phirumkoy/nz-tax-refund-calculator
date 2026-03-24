@@ -140,11 +140,12 @@ const Index = () => {
             {/* IETC Checkbox */}
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="ietc"
-                  checked={includeIETC}
-                  onCheckedChange={(checked) => setIncludeIETC(checked === true)}
-                />
+                  <Checkbox
+                      id="ietc"
+                      checked={includeIETC}
+                      onCheckedChange={(checked) => setIncludeIETC(checked === true)}
+                      disabled={receivedBenefit || receivedWfF}
+                    />
                 <Label htmlFor="ietc" className="text-sm cursor-pointer">
                   Include IETC (if eligible based on conditions below)
                 </Label>

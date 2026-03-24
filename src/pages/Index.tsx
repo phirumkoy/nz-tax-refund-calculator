@@ -137,19 +137,69 @@ const Index = () => {
               </div>
             </div>
 
+            {/* Benefit checkbox */}
+            <div className="space-y-3">
+              <div className="flex items-start space-x-2">
+                <Checkbox
+                  id="received-benefit"
+                  checked={receivedBenefit}
+                  onCheckedChange={(checked) => {
+                    setReceivedBenefit(checked === true);
+                    if (checked) setIncludeIETC(false);
+                  }}
+                  className="mt-0.5"
+                />
+                <Label htmlFor="received-benefit" className="text-sm cursor-pointer leading-snug">
+                  I received a main benefit (e.g. Jobseeker, Supported Living) this tax year
+                </Label>
+              </div>
+
+              {/* WfF checkbox */}
+              <div className="flex items-start space-x-2">
+                <Checkbox
+                  id="received-wff"
+                  checked={receivedWfF}
+                  onCheckedChange={(checked) => {
+                    setReceivedWfF(checked === true);
+                    if (checked) setIncludeIETC(false);
+                  }}
+                  className="mt-0.5"
+                />
+                <Label htmlFor="received-wff" className="text-sm cursor-pointer leading-snug">
+                  I or my partner received Working for Families tax credits this tax year
+                </Label>
+              </div>
+            </div>
+
             {/* IETC Checkbox */}
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
-                  <Checkbox
-                      id="ietc"
-                      checked={includeIETC}
-                      onCheckedChange={(checked) => setIncludeIETC(checked === true)}
-                      disabled={receivedBenefit || receivedWfF}
-                    />
+                <Checkbox
+                  id="ietc"
+                  checked={includeIETC}
+                  onCheckedChange={(checked) => setIncludeIETC(checked === true)}
+                  disabled={receivedBenefit || receivedWfF}
+                />
                 <Label htmlFor="ietc" className="text-sm cursor-pointer">
                   Include IETC (if eligible based on conditions below)
                 </Label>
               </div>
+
+              {(receivedBenefit || receivedWfF) && (
+                <p className="ml-6 text-xs text-muted-foreground">
+                  IETC does not apply – see checked reason above.
+                </p>
+              )}
+
+              {/* IRD eligibility link */}
+              <a
+                href="https://www.ird.govt.nz/income-tax/income-tax-for-individuals/individual-tax-credits/independent-earner-tax-credit-ietc"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-6 inline-block text-xs text-muted-foreground underline"
+              >
+                Not sure if you're eligible? Check on the IRD website →
+              </a>
 
               {includeIETC && (
                 <div className="ml-6 space-y-3">
@@ -178,48 +228,6 @@ const Index = () => {
                     IRD may pro-rate IETC based on the number of months you were
                     eligible during the tax year.
                   </p>
-
-                  {/* Benefit checkbox */}
-                  <div className="flex items-start space-x-2 pt-1">
-                    <Checkbox
-                      id="received-benefit"
-                      checked={receivedBenefit}
-                      onCheckedChange={(checked) => {
-                        setReceivedBenefit(checked === true);
-                        if (checked) setIncludeIETC(false);
-                      }}
-                      className="mt-0.5"
-                    />
-                    <Label htmlFor="received-benefit" className="text-sm cursor-pointer leading-snug">
-                      I received a main benefit (e.g. Jobseeker, Supported Living) this tax year
-                    </Label>
-                  </div>
-
-                  {/* WfF checkbox */}
-                  <div className="flex items-start space-x-2">
-                    <Checkbox
-                      id="received-wff"
-                      checked={receivedWfF}
-                      onCheckedChange={(checked) => {
-                        setReceivedWfF(checked === true);
-                        if (checked) setIncludeIETC(false);
-                      }}
-                      className="mt-0.5"
-                    />
-                    <Label htmlFor="received-wff" className="text-sm cursor-pointer leading-snug">
-                      I or my partner received Working for Families tax credits this tax year
-                    </Label>
-                  </div>
-
-                  {/* IRD eligibility link */}
-                  <a
-                    href="https://www.ird.govt.nz/income-tax/income-tax-for-individuals/individual-tax-credits/independent-earner-tax-credit-ietc"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block text-xs text-muted-foreground underline pt-1"
-                  >
-                    Not sure if you're eligible? Check on the IRD website →
-                  </a>
                 </div>
               )}
             </div>

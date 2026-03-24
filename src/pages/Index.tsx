@@ -307,7 +307,7 @@ const Index = () => {
               Good to Know
             </AccordionTrigger>
             <AccordionContent className="text-sm text-muted-foreground space-y-2">
-              <p>This calculator provides an estimate only.</p>
+              <p>This is an estimate only – your final result is calculated by IRD.</p>
               <p>
                 Final results may differ due to IRD adjustments, including KiwiSaver
                 contributions, PIE income, interest, dividends, Working for Families

@@ -137,6 +137,40 @@ const Index = () => {
               </div>
             </div>
 
+            {/* Benefit checkbox */}
+            <div className="space-y-3">
+              <div className="flex items-start space-x-2">
+                <Checkbox
+                  id="received-benefit"
+                  checked={receivedBenefit}
+                  onCheckedChange={(checked) => {
+                    setReceivedBenefit(checked === true);
+                    if (checked) setIncludeIETC(false);
+                  }}
+                  className="mt-0.5"
+                />
+                <Label htmlFor="received-benefit" className="text-sm cursor-pointer leading-snug">
+                  I received a main benefit (e.g. Jobseeker, Supported Living) this tax year
+                </Label>
+              </div>
+
+              {/* WfF checkbox */}
+              <div className="flex items-start space-x-2">
+                <Checkbox
+                  id="received-wff"
+                  checked={receivedWfF}
+                  onCheckedChange={(checked) => {
+                    setReceivedWfF(checked === true);
+                    if (checked) setIncludeIETC(false);
+                  }}
+                  className="mt-0.5"
+                />
+                <Label htmlFor="received-wff" className="text-sm cursor-pointer leading-snug">
+                  I or my partner received Working for Families tax credits this tax year
+                </Label>
+              </div>
+            </div>
+
             {/* IETC Checkbox */}
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
@@ -144,11 +178,28 @@ const Index = () => {
                   id="ietc"
                   checked={includeIETC}
                   onCheckedChange={(checked) => setIncludeIETC(checked === true)}
+                  disabled={receivedBenefit || receivedWfF}
                 />
                 <Label htmlFor="ietc" className="text-sm cursor-pointer">
-                  Include IETC (if eligible)
+                  Include IETC (if eligible based on conditions below)
                 </Label>
               </div>
+
+              {(receivedBenefit || receivedWfF) && (
+                <p className="ml-6 text-xs text-muted-foreground">
+                  IETC does not apply – see checked reason above.
+                </p>
+              )}
+
+              {/* IRD eligibility link */}
+              <a
+                href="https://www.ird.govt.nz/income-tax/income-tax-for-individuals/individual-tax-credits/independent-earner-tax-credit-ietc"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-6 inline-block text-xs text-muted-foreground underline"
+              >
+                Not sure if you're eligible? Check on the IRD website →
+              </a>
 
               {includeIETC && (
                 <div className="ml-6 space-y-3">
@@ -177,42 +228,6 @@ const Index = () => {
                     IRD may pro-rate IETC based on the number of months you were
                     eligible during the tax year.
                   </p>
-
-                  {/* Benefit checkbox */}
-                  <div className="flex items-start space-x-2 pt-1">
-                    <Checkbox
-                      id="received-benefit"
-                      checked={receivedBenefit}
-                      onCheckedChange={(checked) => setReceivedBenefit(checked === true)}
-                      className="mt-0.5"
-                    />
-                    <Label htmlFor="received-benefit" className="text-sm cursor-pointer leading-snug">
-                      I received a benefit (e.g. Jobseeker) this tax year
-                    </Label>
-                  </div>
-
-                  {/* WfF checkbox */}
-                  <div className="flex items-start space-x-2">
-                    <Checkbox
-                      id="received-wff"
-                      checked={receivedWfF}
-                      onCheckedChange={(checked) => setReceivedWfF(checked === true)}
-                      className="mt-0.5"
-                    />
-                    <Label htmlFor="received-wff" className="text-sm cursor-pointer leading-snug">
-                      I or my partner received Working for Families tax credits this tax year
-                    </Label>
-                  </div>
-
-                  {/* IRD eligibility link */}
-                  <a
-                    href="https://www.ird.govt.nz/income-tax/income-tax-for-individuals/individual-tax-credits/independent-earner-tax-credit-ietc"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block text-xs text-muted-foreground underline pt-1"
-                  >
-                    Not sure if you're eligible? Check on the IRD website →
-                  </a>
                 </div>
               )}
             </div>
@@ -267,11 +282,29 @@ const Index = () => {
                 </p>
                 <p className="mt-3 text-xs text-muted-foreground">
                   {isRefund
-                    ? "Your refund will be automatically credited to the bank account linked to your MyIR account."
+                    ? "If you're owed a refund, IRD will automatically credit it to the bank account linked to your MyIR account."
                     : "IRD will send you a letter letting you know the amount owing and how to pay."}
                 </p>
               </CardContent>
             </Card>
+
+            <p className="text-center text-xs text-muted-foreground">
+              Estimate only – final amount confirmed by IRD after assessment.
+            </p>
+
+            <div className="text-center space-y-2">
+              <p className="text-sm text-muted-foreground">
+                Get a full breakdown of your pay, deductions &amp; real hourly rate
+              </p>
+              <a
+                href="https://stan.store/bingosandco"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 underline underline-offset-4"
+              >
+                Check out the NZ Pay Simulator →
+              </a>
+            </div>
 
             {results.ietcMessage && (
               <p className="text-center text-xs text-muted-foreground">
@@ -288,7 +321,7 @@ const Index = () => {
               Good to Know
             </AccordionTrigger>
             <AccordionContent className="text-sm text-muted-foreground space-y-2">
-              <p>This calculator provides an estimate only.</p>
+              <p>This is an estimate only – your final result is calculated by IRD.</p>
               <p>
                 Final results may differ due to IRD adjustments, including KiwiSaver
                 contributions, PIE income, interest, dividends, Working for Families
@@ -304,6 +337,21 @@ const Index = () => {
               <p>
                 This estimate is based on salary and wage income only. KiwiSaver, PIE income, interest (RWT), and Working for Families may affect your final IRD assessment.
               </p>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="what-affects" className="rounded-lg border bg-card shadow-sm px-4">
+            <AccordionTrigger className="text-sm font-medium hover:no-underline">
+              What affects your result?
+            </AccordionTrigger>
+            <AccordionContent className="text-sm text-muted-foreground">
+              <ul className="list-disc ml-5 space-y-1.5">
+                <li>KiwiSaver contributions</li>
+                <li>Student loan repayments</li>
+                <li>Working for Families tax credits</li>
+                <li>Secondary income sources</li>
+                <li>PIE income and interest (RWT)</li>
+              </ul>
             </AccordionContent>
           </AccordionItem>
 

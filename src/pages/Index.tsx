@@ -43,6 +43,7 @@ const Index = () => {
   const [taxDeducted, setTaxDeducted] = useState("");
   const [includeIETC, setIncludeIETC] = useState(false);
   const [monthsEligible, setMonthsEligible] = useState("12");
+  const [receivedBenefitOrWfF, setReceivedBenefitOrWfF] = useState(false);
   const [results, setResults] = useState<Results | null>(null);
 
   const handleCalculate = () => {
@@ -52,9 +53,11 @@ const Index = () => {
 
     const taxDue = calculateTaxDue(income);
     const resultExclIETC = Math.round((deducted - taxDue) * 100) / 100;
-    const ietc = includeIETC ? calculateIETC(income, months) : 0;
+    const ietc = includeIETC && !receivedBenefitOrWfF ? calculateIETC(income, months) : 0;
     const finalResult = Math.round((resultExclIETC + ietc) * 100) / 100;
-    const ietcMessage = getIETCMessage(income, months, includeIETC);
+    const ietcMessage = receivedBenefitOrWfF && includeIETC
+      ? "IETC does not apply — you or your partner received a benefit or Working for Families tax credits."
+      : getIETCMessage(income, months, includeIETC);
 
     setResults({ taxDue, taxDeducted: deducted, resultExclIETC, ietc, finalResult, ietcMessage });
   };
@@ -64,19 +67,8 @@ const Index = () => {
     setTaxDeducted("");
     setIncludeIETC(false);
     setMonthsEligible("12");
+    setReceivedBenefitOrWfF(false);
     setResults(null);
-  };
-
-  const handleMonthsChange = (value: string) => {
-    const cleaned = value.replace(/[^0-9]/g, "");
-    const num = parseInt(cleaned);
-    if (cleaned === "") {
-      setMonthsEligible("");
-    } else if (num > 12) {
-      setMonthsEligible("12");
-    } else {
-      setMonthsEligible(cleaned);
-    }
   };
 
   const isRefund = results && results.finalResult >= 0;
@@ -182,6 +174,19 @@ const Index = () => {
                     IRD may pro-rate IETC based on the number of months you were
                     eligible during the tax year.
                   </p>
+
+                  {/* Benefit/WfF toggle */}
+                  <div className="flex items-start space-x-2 pt-1">
+                    <Checkbox
+                      id="benefit-wff"
+                      checked={receivedBenefitOrWfF}
+                      onCheckedChange={(checked) => setReceivedBenefitOrWfF(checked === true)}
+                      className="mt-0.5"
+                    />
+                    <Label htmlFor="benefit-wff" className="text-sm cursor-pointer leading-snug">
+                      I or my partner received a benefit or Working for Families tax credits this tax year
+                    </Label>
+                  </div>
                 </div>
               )}
             </div>
@@ -234,6 +239,11 @@ const Index = () => {
                 <p className={`mt-1 text-3xl font-bold ${isRefund ? "text-green-700" : "text-red-700"}`}>
                   ${formatCurrency(Math.abs(results.finalResult))}
                 </p>
+                <p className="mt-3 text-xs text-muted-foreground">
+                  {isRefund
+                    ? "Your refund will be automatically credited to the bank account linked to your MyIR account."
+                    : "IRD will send you a letter letting you know the amount owing and how to pay."}
+                </p>
               </CardContent>
             </Card>
 
@@ -261,6 +271,12 @@ const Index = () => {
               <p>
                 Please refer to your official IRD income tax assessment for final
                 figures.
+              </p>
+              <p>
+                Refunds are automatically credited to the bank account linked to your MyIR account. If you owe tax, IRD will send you a letter.
+              </p>
+              <p>
+                This estimate is based on salary and wage income only. KiwiSaver, PIE income, interest (RWT), and Working for Families may affect your final IRD assessment.
               </p>
             </AccordionContent>
           </AccordionItem>
@@ -295,26 +311,21 @@ const Index = () => {
               </a>
 
               <div className="space-y-2">
-                <p className="font-medium text-foreground">Finding Total Gross Income</p>
+                <p className="font-medium text-foreground">Finding your total gross income</p>
                 <ol className="list-decimal ml-5 space-y-1.5">
-                  <li>Log into MyIR.</li>
-                  <li>Click "Income Summary".</li>
-                  <li>Select the relevant Income Tax Year (1 April 2025 – 31 March 2026).</li>
-                  <li>Click "Summary by type (Salary & wages)".</li>
-                  <li>Click "View breakdown".</li>
-                  <li>Use the figure shown under "Total gross amount".</li>
+                  <li>Log into MyIR at myir.ird.govt.nz</li>
+                  <li>Click "Income summary"</li>
+                  <li>Under "Income period", select "Last income tax year" (1 April 2025 – 31 March 2026)</li>
+                  <li>Under "Summary by type", click "View breakdown" next to Salary, wages, benefits and taxable pensions</li>
+                  <li>Enter the figure shown under "Total gross amount"</li>
                 </ol>
               </div>
 
               <div className="space-y-2">
-                <p className="font-medium text-foreground">Finding Total Tax Deducted</p>
+                <p className="font-medium text-foreground">Finding your total tax deducted</p>
                 <ol className="list-decimal ml-5 space-y-1.5">
-                  <li>Log into MyIR.</li>
-                  <li>Click "Income Summary".</li>
-                  <li>Select the relevant Income Tax Year (1 April 2025 – 31 March 2026).</li>
-                  <li>Click "Summary by type (Salary & wages)".</li>
-                  <li>Click "View breakdown".</li>
-                  <li>Use the figure shown under "Total tax deducted".</li>
+                  <li>Follow steps 1–4 above</li>
+                  <li>Enter the figure shown under "Total tax deducted"</li>
                 </ol>
               </div>
             </AccordionContent>

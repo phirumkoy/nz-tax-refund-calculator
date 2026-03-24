@@ -178,18 +178,41 @@ const Index = () => {
                     eligible during the tax year.
                   </p>
 
-                  {/* Benefit/WfF toggle */}
+                  {/* Benefit checkbox */}
                   <div className="flex items-start space-x-2 pt-1">
                     <Checkbox
-                      id="benefit-wff"
-                      checked={receivedBenefitOrWfF}
-                      onCheckedChange={(checked) => setReceivedBenefitOrWfF(checked === true)}
+                      id="received-benefit"
+                      checked={receivedBenefit}
+                      onCheckedChange={(checked) => setReceivedBenefit(checked === true)}
                       className="mt-0.5"
                     />
-                    <Label htmlFor="benefit-wff" className="text-sm cursor-pointer leading-snug">
-                      I or my partner received a benefit or Working for Families tax credits this tax year
+                    <Label htmlFor="received-benefit" className="text-sm cursor-pointer leading-snug">
+                      I received a benefit (e.g. Jobseeker) this tax year
                     </Label>
                   </div>
+
+                  {/* WfF checkbox */}
+                  <div className="flex items-start space-x-2">
+                    <Checkbox
+                      id="received-wff"
+                      checked={receivedWfF}
+                      onCheckedChange={(checked) => setReceivedWfF(checked === true)}
+                      className="mt-0.5"
+                    />
+                    <Label htmlFor="received-wff" className="text-sm cursor-pointer leading-snug">
+                      I or my partner received Working for Families tax credits this tax year
+                    </Label>
+                  </div>
+
+                  {/* IRD eligibility link */}
+                  <a
+                    href="https://www.ird.govt.nz/income-tax/income-tax-for-individuals/individual-tax-credits/independent-earner-tax-credit-ietc"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block text-xs text-muted-foreground underline pt-1"
+                  >
+                    Not sure if you're eligible? Check on the IRD website →
+                  </a>
                 </div>
               )}
             </div>

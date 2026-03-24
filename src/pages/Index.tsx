@@ -200,7 +200,10 @@ const Index = () => {
                     <Checkbox
                       id="received-wff"
                       checked={receivedWfF}
-                      onCheckedChange={(checked) => setReceivedWfF(checked === true)}
+                      onCheckedChange={(checked) => {
+                        setReceivedWfF(checked === true);
+                        if (checked) setIncludeIETC(false);
+                      }}
                       className="mt-0.5"
                     />
                     <Label htmlFor="received-wff" className="text-sm cursor-pointer leading-snug">

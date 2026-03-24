@@ -268,11 +268,29 @@ const Index = () => {
                 </p>
                 <p className="mt-3 text-xs text-muted-foreground">
                   {isRefund
-                    ? "Your refund will be automatically credited to the bank account linked to your MyIR account."
+                    ? "If you're owed a refund, IRD will automatically credit it to the bank account linked to your MyIR account."
                     : "IRD will send you a letter letting you know the amount owing and how to pay."}
                 </p>
               </CardContent>
             </Card>
+
+            <p className="text-center text-xs text-muted-foreground">
+              Estimate only – final amount confirmed by IRD after assessment.
+            </p>
+
+            <div className="text-center space-y-2">
+              <p className="text-sm text-muted-foreground">
+                Get a full breakdown of your pay, deductions &amp; real hourly rate
+              </p>
+              <a
+                href="https://stan.store/bingosandco"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 underline underline-offset-4"
+              >
+                Check out the NZ Pay Simulator →
+              </a>
+            </div>
 
             {results.ietcMessage && (
               <p className="text-center text-xs text-muted-foreground">

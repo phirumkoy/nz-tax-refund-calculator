@@ -69,7 +69,8 @@ const Index = () => {
     setTaxDeducted("");
     setIncludeIETC(false);
     setMonthsEligible("12");
-    setReceivedBenefitOrWfF(false);
+    setReceivedBenefit(false);
+    setReceivedWfF(false);
     setResults(null);
   };
 

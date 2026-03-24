@@ -326,6 +326,21 @@ const Index = () => {
             </AccordionContent>
           </AccordionItem>
 
+          <AccordionItem value="what-affects" className="rounded-lg border bg-card shadow-sm px-4">
+            <AccordionTrigger className="text-sm font-medium hover:no-underline">
+              What affects your result?
+            </AccordionTrigger>
+            <AccordionContent className="text-sm text-muted-foreground">
+              <ul className="list-disc ml-5 space-y-1.5">
+                <li>KiwiSaver contributions</li>
+                <li>Student loan repayments</li>
+                <li>Working for Families tax credits</li>
+                <li>Secondary income sources</li>
+                <li>PIE income and interest (RWT)</li>
+              </ul>
+            </AccordionContent>
+          </AccordionItem>
+
           <AccordionItem value="how-it-works" className="rounded-lg border bg-card shadow-sm px-4">
             <AccordionTrigger className="text-sm font-medium hover:no-underline">
               How This Calculator Works

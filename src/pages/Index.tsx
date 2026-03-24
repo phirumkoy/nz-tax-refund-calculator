@@ -43,7 +43,8 @@ const Index = () => {
   const [taxDeducted, setTaxDeducted] = useState("");
   const [includeIETC, setIncludeIETC] = useState(false);
   const [monthsEligible, setMonthsEligible] = useState("12");
-  const [receivedBenefitOrWfF, setReceivedBenefitOrWfF] = useState(false);
+  const [receivedBenefit, setReceivedBenefit] = useState(false);
+  const [receivedWfF, setReceivedWfF] = useState(false);
   const [results, setResults] = useState<Results | null>(null);
 
   const handleCalculate = () => {
@@ -53,10 +54,11 @@ const Index = () => {
 
     const taxDue = calculateTaxDue(income);
     const resultExclIETC = Math.round((deducted - taxDue) * 100) / 100;
-    const ietc = includeIETC && !receivedBenefitOrWfF ? calculateIETC(income, months) : 0;
+    const disqualified = receivedBenefit || receivedWfF;
+    const ietc = includeIETC && !disqualified ? calculateIETC(income, months) : 0;
     const finalResult = Math.round((resultExclIETC + ietc) * 100) / 100;
-    const ietcMessage = receivedBenefitOrWfF && includeIETC
-      ? "IETC does not apply — you or your partner received a benefit or Working for Families tax credits."
+    const ietcMessage = disqualified && includeIETC
+      ? "IETC does not apply - see checked reason above."
       : getIETCMessage(income, months, includeIETC);
 
     setResults({ taxDue, taxDeducted: deducted, resultExclIETC, ietc, finalResult, ietcMessage });
@@ -67,7 +69,8 @@ const Index = () => {
     setTaxDeducted("");
     setIncludeIETC(false);
     setMonthsEligible("12");
-    setReceivedBenefitOrWfF(false);
+    setReceivedBenefit(false);
+    setReceivedWfF(false);
     setResults(null);
   };
 
@@ -175,18 +178,41 @@ const Index = () => {
                     eligible during the tax year.
                   </p>
 
-                  {/* Benefit/WfF toggle */}
+                  {/* Benefit checkbox */}
                   <div className="flex items-start space-x-2 pt-1">
                     <Checkbox
-                      id="benefit-wff"
-                      checked={receivedBenefitOrWfF}
-                      onCheckedChange={(checked) => setReceivedBenefitOrWfF(checked === true)}
+                      id="received-benefit"
+                      checked={receivedBenefit}
+                      onCheckedChange={(checked) => setReceivedBenefit(checked === true)}
                       className="mt-0.5"
                     />
-                    <Label htmlFor="benefit-wff" className="text-sm cursor-pointer leading-snug">
-                      I or my partner received a benefit or Working for Families tax credits this tax year
+                    <Label htmlFor="received-benefit" className="text-sm cursor-pointer leading-snug">
+                      I received a benefit (e.g. Jobseeker) this tax year
                     </Label>
                   </div>
+
+                  {/* WfF checkbox */}
+                  <div className="flex items-start space-x-2">
+                    <Checkbox
+                      id="received-wff"
+                      checked={receivedWfF}
+                      onCheckedChange={(checked) => setReceivedWfF(checked === true)}
+                      className="mt-0.5"
+                    />
+                    <Label htmlFor="received-wff" className="text-sm cursor-pointer leading-snug">
+                      I or my partner received Working for Families tax credits this tax year
+                    </Label>
+                  </div>
+
+                  {/* IRD eligibility link */}
+                  <a
+                    href="https://www.ird.govt.nz/income-tax/income-tax-for-individuals/individual-tax-credits/independent-earner-tax-credit-ietc"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block text-xs text-muted-foreground underline pt-1"
+                  >
+                    Not sure if you're eligible? Check on the IRD website →
+                  </a>
                 </div>
               )}
             </div>

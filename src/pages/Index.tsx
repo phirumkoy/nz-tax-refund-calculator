@@ -188,7 +188,7 @@ const Index = () => {
                       className="mt-0.5"
                     />
                     <Label htmlFor="received-benefit" className="text-sm cursor-pointer leading-snug">
-                      I received a benefit (e.g. Jobseeker) this tax year
+                      I received a main benefit (e.g. Jobseeker, Supported Living) this tax year
                     </Label>
                   </div>
 

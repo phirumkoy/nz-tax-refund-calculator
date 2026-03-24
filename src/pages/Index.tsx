@@ -54,10 +54,11 @@ const Index = () => {
 
     const taxDue = calculateTaxDue(income);
     const resultExclIETC = Math.round((deducted - taxDue) * 100) / 100;
-    const ietc = includeIETC && !receivedBenefitOrWfF ? calculateIETC(income, months) : 0;
+    const disqualified = receivedBenefit || receivedWfF;
+    const ietc = includeIETC && !disqualified ? calculateIETC(income, months) : 0;
     const finalResult = Math.round((resultExclIETC + ietc) * 100) / 100;
-    const ietcMessage = receivedBenefitOrWfF && includeIETC
-      ? "IETC does not apply — you or your partner received a benefit or Working for Families tax credits."
+    const ietcMessage = disqualified && includeIETC
+      ? "IETC does not apply - see checked reason above."
       : getIETCMessage(income, months, includeIETC);
 
     setResults({ taxDue, taxDeducted: deducted, resultExclIETC, ietc, finalResult, ietcMessage });

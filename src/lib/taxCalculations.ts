@@ -36,10 +36,10 @@ export function getIETCMessage(income: number, monthsEligible: number, includeIE
   }
   const ietc = calculateIETC(income, monthsEligible);
   if (income > 66000) {
-    return `Partial IETC of $${ietc.toFixed(2)} applied (reduced for income over $66,000, pro-rated for ${monthsEligible} month${monthsEligible !== 1 ? "s" : ""}).`;
+    return `Includes $${ietc.toFixed(2)} IETC (reduced for income over $66,000, pro-rated for ${monthsEligible} month${monthsEligible !== 1 ? "s" : ""}).`;
   }
   if (monthsEligible < 12) {
-    return `IETC of $${ietc.toFixed(2)} applied (pro-rated for ${monthsEligible} month${monthsEligible !== 1 ? "s" : ""}).`;
+    return `Includes $${ietc.toFixed(2)} IETC (pro-rated for ${monthsEligible} month${monthsEligible !== 1 ? "s" : ""}).`;
   }
-  return `Full IETC of $${ietc.toFixed(2)} applied.`;
+  return `Includes $${ietc.toFixed(2)} IETC.`;
 }

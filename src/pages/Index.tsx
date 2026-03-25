@@ -137,42 +137,9 @@ const Index = () => {
               </div>
             </div>
 
-            {/* Benefit checkbox */}
+            {/* IETC Section */}
             <div className="space-y-3">
-              <div className="flex items-start space-x-2">
-                <Checkbox
-                  id="received-benefit"
-                  checked={receivedBenefit}
-                  onCheckedChange={(checked) => {
-                    setReceivedBenefit(checked === true);
-                    if (checked) setIncludeIETC(false);
-                  }}
-                  className="mt-0.5"
-                />
-                <Label htmlFor="received-benefit" className="text-sm cursor-pointer leading-snug">
-                  I received a main benefit (e.g. Jobseeker, Supported Living) this tax year
-                </Label>
-              </div>
-
-              {/* WfF checkbox */}
-              <div className="flex items-start space-x-2">
-                <Checkbox
-                  id="received-wff"
-                  checked={receivedWfF}
-                  onCheckedChange={(checked) => {
-                    setReceivedWfF(checked === true);
-                    if (checked) setIncludeIETC(false);
-                  }}
-                  className="mt-0.5"
-                />
-                <Label htmlFor="received-wff" className="text-sm cursor-pointer leading-snug">
-                  I or my partner received Working for Families tax credits this tax year
-                </Label>
-              </div>
-            </div>
-
-            {/* IETC Checkbox */}
-            <div className="space-y-3">
+              {/* Include IETC checkbox */}
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="ietc"
@@ -181,13 +148,46 @@ const Index = () => {
                   disabled={receivedBenefit || receivedWfF}
                 />
                 <Label htmlFor="ietc" className="text-sm cursor-pointer">
-                  Include IETC (if eligible based on conditions below)
+                  Include IETC (if eligible)
                 </Label>
+              </div>
+
+              {/* Disqualifier checkboxes */}
+              <div className="ml-6 space-y-3">
+                <div className="flex items-start space-x-2">
+                  <Checkbox
+                    id="received-benefit"
+                    checked={receivedBenefit}
+                    onCheckedChange={(checked) => {
+                      setReceivedBenefit(checked === true);
+                      if (checked) setIncludeIETC(false);
+                    }}
+                    className="mt-0.5"
+                  />
+                  <Label htmlFor="received-benefit" className="text-sm cursor-pointer leading-snug">
+                    I received a main benefit (e.g. Jobseeker, Supported Living) this tax year
+                  </Label>
+                </div>
+
+                <div className="flex items-start space-x-2">
+                  <Checkbox
+                    id="received-wff"
+                    checked={receivedWfF}
+                    onCheckedChange={(checked) => {
+                      setReceivedWfF(checked === true);
+                      if (checked) setIncludeIETC(false);
+                    }}
+                    className="mt-0.5"
+                  />
+                  <Label htmlFor="received-wff" className="text-sm cursor-pointer leading-snug">
+                    I or my partner received Working for Families tax credits this tax year
+                  </Label>
+                </div>
               </div>
 
               {(receivedBenefit || receivedWfF) && (
                 <p className="ml-6 text-xs text-muted-foreground">
-                  IETC does not apply – see checked reason above.
+                  IETC has been excluded based on your selections above.
                 </p>
               )}
 

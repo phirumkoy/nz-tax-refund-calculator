@@ -148,7 +148,7 @@ const Index = () => {
                   disabled={receivedBenefit || receivedWfF}
                 />
                 <Label htmlFor="ietc" className="text-sm cursor-pointer">
-                  Include IETC (if eligible)
+                  Include IETC (if eligible based on conditions below)
                 </Label>
               </div>
 

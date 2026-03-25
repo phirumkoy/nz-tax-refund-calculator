@@ -311,11 +311,6 @@ const Index = () => {
               </a>
             </div>
 
-            {results.ietcMessage && (
-              <p className="text-center text-xs text-muted-foreground">
-                {results.ietcMessage}
-              </p>
-            )}
           </div>
         )}
 

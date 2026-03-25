@@ -148,7 +148,7 @@ const Index = () => {
                   disabled={receivedBenefit || receivedWfF}
                 />
                 <Label htmlFor="ietc" className="text-sm cursor-pointer">
-                  Include IETC (if eligible)
+                  Include IETC (if eligible based on conditions below)
                 </Label>
               </div>
 
@@ -275,15 +275,20 @@ const Index = () => {
             >
               <CardContent className="py-6 text-center">
                 <p className={`text-sm font-medium ${isRefund ? "text-green-700" : "text-red-700"}`}>
-                  {isRefund ? "Estimated Refund" : "Tax to Pay"}
+                  {isRefund ? "Estimated Refund" : "Estimated Tax to Pay"}
                 </p>
                 <p className={`mt-1 text-3xl font-bold ${isRefund ? "text-green-700" : "text-red-700"}`}>
                   ${formatCurrency(Math.abs(results.finalResult))}
                 </p>
+                {results.ietcMessage && (
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    {results.ietcMessage}
+                  </p>
+                )}
                 <p className="mt-3 text-xs text-muted-foreground">
                   {isRefund
-                    ? "If you're owed a refund, IRD will automatically credit it to the bank account linked to your MyIR account."
-                    : "IRD will send you a letter letting you know the amount owing and how to pay."}
+                    ? "This refund will be automatically credited to your bank account linked to MyIR."
+                    : "IRD will notify you of the amount owing and how to make payment."}
                 </p>
               </CardContent>
             </Card>
@@ -306,11 +311,6 @@ const Index = () => {
               </a>
             </div>
 
-            {results.ietcMessage && (
-              <p className="text-center text-xs text-muted-foreground">
-                {results.ietcMessage}
-              </p>
-            )}
           </div>
         )}
 

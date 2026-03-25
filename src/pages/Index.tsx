@@ -302,7 +302,7 @@ const Index = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 underline underline-offset-4"
               >
-                Check out the NZ Pay Simulator →
+                👉 Get your full pay breakdown with the NZ Pay Simulator →
               </a>
             </div>
 

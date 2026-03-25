@@ -280,16 +280,16 @@ const Index = () => {
                 <p className={`mt-1 text-3xl font-bold ${isRefund ? "text-green-700" : "text-red-700"}`}>
                   ${formatCurrency(Math.abs(results.finalResult))}
                 </p>
-                {results.ietcMessage && (
-                  <p className="mt-2 text-xs text-muted-foreground">
-                    {results.ietcMessage}
-                  </p>
-                )}
                 <p className="mt-3 text-xs text-muted-foreground">
                   {isRefund
                     ? "This refund will be automatically credited to your bank account linked to MyIR."
                     : "IRD will notify you of the amount owing and how to make payment."}
                 </p>
+                {results.ietcMessage && (
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    {results.ietcMessage}
+                  </p>
+                )}
               </CardContent>
             </Card>
 

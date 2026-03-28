@@ -41,7 +41,6 @@ const parseCurrencyInput = (value: string): string =>
 const Index = () => {
   const [grossIncome, setGrossIncome] = useState("");
   const [taxDeducted, setTaxDeducted] = useState("");
-  const [includeIETC, setIncludeIETC] = useState(false);
   const [monthsEligible, setMonthsEligible] = useState("12");
   const [receivedBenefit, setReceivedBenefit] = useState(false);
   const [receivedWfF, setReceivedWfF] = useState(false);

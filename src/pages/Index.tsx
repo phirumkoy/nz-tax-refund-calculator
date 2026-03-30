@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -46,6 +46,25 @@ const Index = () => {
   const [receivedWfF, setReceivedWfF] = useState(false);
   const [results, setResults] = useState<Results | null>(null);
 
+  const parsedGrossIncome = parseFloat(parseCurrencyInput(grossIncome));
+  const showIetcMonthsField =
+    !receivedBenefit &&
+    !receivedWfF &&
+    !Number.isNaN(parsedGrossIncome) &&
+    parsedGrossIncome >= 24000 &&
+    parsedGrossIncome <= 70000;
+
+  useEffect(() => {
+    if (!showIetcMonthsField) {
+      return;
+    }
+
+    const months = parseInt(monthsEligible, 10);
+    if (Number.isNaN(months) || months < 0 || months > 12) {
+      setMonthsEligible("12");
+    }
+  }, [showIetcMonthsField, monthsEligible]);
+
   const handleCalculate = () => {
     const income = parseFloat(parseCurrencyInput(grossIncome)) || 0;
     const deducted = parseFloat(parseCurrencyInput(taxDeducted)) || 0;
@@ -53,12 +72,17 @@ const Index = () => {
 
     const taxDue = calculateTaxDue(income);
     const resultExclIETC = Math.round((deducted - taxDue) * 100) / 100;
-    const disqualified = receivedBenefit || receivedWfF;
-    const ietc = !disqualified ? calculateIETC(income, months) : 0;
+
+    const disqualifiedByCheckbox = receivedBenefit || receivedWfF;
+    const incomeEligible = !Number.isNaN(income) && income >= 24000 && income <= 70000;
+    const includeIETC = !disqualifiedByCheckbox && incomeEligible;
+    const ietcMonths = includeIETC ? months : 0;
+
+    const ietc = includeIETC ? calculateIETC(income, ietcMonths) : 0;
     const finalResult = Math.round((resultExclIETC + ietc) * 100) / 100;
-    const ietcMessage = disqualified
+    const ietcMessage = disqualifiedByCheckbox
       ? "IETC does not apply - see checked reason above."
-      : getIETCMessage(income, months, true);
+      : getIETCMessage(income, ietcMonths, true);
 
     setResults({ taxDue, taxDeducted: deducted, resultExclIETC, ietc, finalResult, ietcMessage });
   };
@@ -138,30 +162,32 @@ const Index = () => {
             {/* IETC Section */}
             <div className="space-y-3">
               {/* Months eligible dropdown */}
-              <div className="space-y-2">
-                <Label htmlFor="months" className="text-sm font-medium">
-                  Months eligible for IETC (0–12)
-                </Label>
-                <Select
-                  value={monthsEligible}
-                  onValueChange={(value) => setMonthsEligible(value)}
-                >
-                  <SelectTrigger className="h-10 w-full sm:w-32">
-                    <SelectValue placeholder="Select months" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Array.from({ length: 13 }, (_, i) => (
-                      <SelectItem key={i} value={String(i)}>
-                        {i}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <p className="text-xs text-muted-foreground">
-                  IRD may pro-rate IETC based on the number of months you were
-                  eligible during the tax year.
-                </p>
-              </div>
+              {showIetcMonthsField && (
+                <div className="space-y-2">
+                  <Label htmlFor="months" className="text-sm font-medium">
+                    Months eligible for IETC (0–12)
+                  </Label>
+                  <Select
+                    value={monthsEligible}
+                    onValueChange={(value) => setMonthsEligible(value)}
+                  >
+                    <SelectTrigger className="h-10 w-full sm:w-32">
+                      <SelectValue placeholder="Select months" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Array.from({ length: 13 }, (_, i) => (
+                        <SelectItem key={i} value={String(i)}>
+                          {i}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">
+                    IRD may pro-rate IETC based on the number of months you were
+                    eligible during the tax year.
+                  </p>
+                </div>
+              )}
 
               {/* Disqualifier checkboxes */}
               <div className="space-y-3">

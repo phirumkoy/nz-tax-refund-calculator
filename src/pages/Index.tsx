@@ -120,7 +120,7 @@ const Index = () => {
             {/* Gross Income */}
             <div className="space-y-2">
               <Label htmlFor="gross-income" className="text-sm font-medium">
-                Total Gross Income (NZD)
+                Total Gross Amount (NZD)
               </Label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-lg text-muted-foreground">

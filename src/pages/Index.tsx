@@ -107,7 +107,7 @@ const Index = () => {
             NZ Tax Refund Estimate Calculator (FY25/26)
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            NZ Tax Year: 1 April 2025 – 31 March 2026
+            NZ Tax Year: 1 April 2025 - 31 March 2026
           </p>
         </header>
 
@@ -165,7 +165,7 @@ const Index = () => {
               {showIetcMonthsField && (
                 <div className="space-y-2">
                   <Label htmlFor="months" className="text-sm font-medium">
-                    Months eligible for IETC (0–12)
+                    Months eligible for IETC (0-12)
                   </Label>
                   <Select
                     value={monthsEligible}
@@ -304,7 +304,7 @@ const Index = () => {
             </Card>
 
             <p className="text-center text-xs text-muted-foreground">
-              Estimate only – final amount confirmed by IRD after assessment.
+              Estimate only - final amount confirmed by IRD after assessment.
             </p>
 
             <div className="text-center space-y-2">
@@ -331,7 +331,7 @@ const Index = () => {
               Good to Know
             </AccordionTrigger>
             <AccordionContent className="text-sm text-muted-foreground space-y-2">
-              <p>This is an estimate only – your final result is calculated by IRD.</p>
+              <p>This is an estimate only. Your final result is calculated by IRD.</p>
               <p>
                 Final results may differ due to IRD adjustments, including KiwiSaver
                 contributions, PIE income, interest, dividends, Working for Families
@@ -372,7 +372,7 @@ const Index = () => {
             <AccordionContent className="text-sm text-muted-foreground space-y-2">
               <ol className="list-decimal ml-5 space-y-1.5">
                 <li>Your total gross income is used to determine the tax owed based on New Zealand's progressive tax brackets for FY25/26.</li>
-                <li>The tax you have already paid (tax deducted) is subtracted from the tax owed to determine any over- or under-payment.</li>
+                <li>The tax you have already paid (tax deducted) is subtracted from the tax owed to determine any over or under-payment.</li>
                 <li>If you have selected the IETC option, the Independent Earner Tax Credit is calculated based on your income level (applicable between $24,000 and $70,000).</li>
                 <li>The IETC is pro-rated by the number of months you were eligible during the tax year.</li>
                 <li>The final result shows whether you are likely to receive a refund or have tax to pay.</li>
@@ -399,7 +399,7 @@ const Index = () => {
                 <ol className="list-decimal ml-5 space-y-1.5">
                   <li>Log into MyIR at myir.ird.govt.nz</li>
                   <li>Click "Income summary"</li>
-                  <li>Under "Income period", select "Last income tax year" (1 April 2025 – 31 March 2026)</li>
+                  <li>Under "Income period", select "Last income tax year" (1 April 2025 - 31 March 2026)</li>
                   <li>Under "Summary by type", click "View breakdown" next to Salary, wages, benefits and taxable pensions</li>
                   <li>Enter the figure shown under "Total gross amount"</li>
                 </ol>
@@ -408,7 +408,7 @@ const Index = () => {
               <div className="space-y-2">
                 <p className="font-medium text-foreground">Finding your total tax deducted</p>
                 <ol className="list-decimal ml-5 space-y-1.5">
-                  <li>Follow steps 1–4 above</li>
+                  <li>Follow steps 1-4 above</li>
                   <li>Enter the figure shown under "Total tax deducted"</li>
                 </ol>
               </div>
